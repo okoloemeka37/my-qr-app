@@ -70,7 +70,7 @@ if (!down && mx>100) {
       {/* Cart Items */}
       <div className="space-y-4 sm:space-y-6">
         {items.map((item) => (
-          <div  key={item.id} className="flex items-center border-b border-gray-300 pb-3 sm:pb-4" {...bind()}>
+          <div  key={item.id} className="flex items-center border-b border-gray-300 pb-3 sm:pb-4 touch-none" {...bind()}>
             <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 border border-gray-500 rounded-md">
               <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
             </div>
