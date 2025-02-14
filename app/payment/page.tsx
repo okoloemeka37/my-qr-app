@@ -10,7 +10,7 @@ import Link from "next/link";
 
 
 export default function PaymentPage() {
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   const searchParams = useSearchParams();
   const total=searchParams.get("total");
