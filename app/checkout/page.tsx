@@ -4,7 +4,7 @@ import { Minus, Plus, Trash } from "lucide-react";
 import { useDrag } from "@use-gesture/react";
 import Link from "next/link";
 import Button from "../components/Button";
-import { useRouter } from "next/navigation";
+
 
 const cartItems = [
   {
@@ -31,9 +31,10 @@ const cartItems = [
 ];
 
 export default function Checkout() { 
-const router=useRouter();
- 
-  
+
+
+
+
 
   const [items, setItems] = useState(cartItems);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -82,7 +83,7 @@ const router=useRouter();
   const handlePayment = () => {
     // Passing the total as a query parameter in the URL
     const query = new URLSearchParams({ total: total.toFixed(2) }).toString();
-    router.push(`/payment?${query}`);
+
   };
   return (
     <div className="min-h-screen bg-white px-4 py-6">
@@ -162,9 +163,7 @@ const router=useRouter();
       </div>
 
       {/* Payment Button */}
-      <button className="w-full mt-6 bg-blue-800 text-white py-3 text-lg rounded-lg" onClick={handlePayment}>
-        Proceed to Payment
-   </button>
+   <Button Name="Proceed To Payment" url={{pathname:"/payment",query:{total:total}}}/>
     </div>
   );
 }

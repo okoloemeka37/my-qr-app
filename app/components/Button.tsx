@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 interface ButtonProps {
   Name: string;
-  url: string;
+  url: string|{};
 }
 
 export default function Button({ Name,url }: ButtonProps) {
