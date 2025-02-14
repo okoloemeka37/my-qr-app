@@ -68,7 +68,7 @@ export default function PaymentPage() {
           <span className="text-lg font-semibold">New Card</span>
         </button>
       </div>
-        <Button Name={`Pay `+total } url="/payment" />
+        <Button Name={`Pay `+total } url="/" />
     </div>
   );
 }
