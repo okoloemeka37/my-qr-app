@@ -9,6 +9,7 @@ import Button from "../components/Button";
 const cartItems = [
   {
     id: 1,
+    sub:'Braeburn',
     name: "Braeburn Apple",
     price: 836.63,
     image: "images/apple.png",
@@ -16,6 +17,7 @@ const cartItems = [
   },
   {
     id: 2,
+    sub:'minor figures',
     name: "Barista Oat Organic (1 Litre)",
     price: 5856.44,
     image: "images/apple.png",
@@ -23,6 +25,7 @@ const cartItems = [
   },
   {
     id: 3,
+    sub:'valley Isle',
     name: "Local Lilikoi Kombucha",
     price: 11696.16,
     image: "images/apple.png",
@@ -59,11 +62,10 @@ export default function Checkout() {
   const bind = useDrag(({ args: [index], movement: [mx], down, event }) => {
     const swipedDiv = event.currentTarget as HTMLDivElement;
 
-    if (down) {
-      swipedDiv.querySelector(".MT")!.classList.add("hidden");
-    }
+   
 
     if (!down && mx < -50) {
+      swipedDiv.classList.remove("p-6")
       swipedDiv.querySelector(".MT")!.classList.remove("hidden");
       setActiveIndex(index);
 
@@ -71,6 +73,12 @@ export default function Checkout() {
         const parentDiv = swipedDiv.parentElement as HTMLDivElement;
         parentDiv.querySelector(".in" + activeIndex)?.querySelector(".MT")!.classList.add("hidden");
       }
+    } else if (down) {
+   
+     if (!(event.target instanceof SVGElement)) {
+      swipedDiv.classList.add("p-6")
+      swipedDiv.querySelector(".MT")!.classList.add("hidden");
+     }
     }
   });
 
@@ -86,68 +94,63 @@ export default function Checkout() {
 
   };
   return (
-    <div className="min-h-screen bg-white px-4 py-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+
+
+    <div className="bg-white min-h-screen text-black">
+       <div className="flex items-center justify-between mb-6 p-6">
         <button className="text-2xl"><Link href={"/"}>✖</Link> </button>
         <h1 className="text-xl font-semibold">Checkout</h1>
         <button className="text-2xl text-blue-800">☰</button>
       </div>
 
-      {/* Cart Items */}
-      <div className="space-y-4 sm:space-y-6">
-        {items.map((item, index) => (
-          <div
-            key={item.id}
-            className={`flex w-full justify-between border-b border-gray-300 sm:pb-4 touch-none in${index}`}
-            {...bind(index)}
-          >
-            <div className="flex justify-between KT items-center flex-1">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 border border-gray-500 rounded-md">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-              </div>
-              <div className="ml-3 sm:ml-4 flex-1">
-                <p className="text-sm">{item.name}</p>
-                <p className="text-black text-lg font-bold sm:text-base">{item.name}</p>
-                <p className="text-blue-800 font-bold text-sm sm:text-base">
-                  NGN {item.price.toFixed(2)}
-                </p>
-              </div>
+   <div className="space-y-4 sm:space-y-6">
+    {items.map((item,index) => (
+      <div key={item.id}  className={`flex w-full items-stretch border-b border-gray-300  py-1 p-6  touch-none  in${index}`} {...bind(index)} >
+        {/* Image */}
+        <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 border border-gray-500 rounded-md">
+          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+        </div>
 
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => updateQuantity(item.id, -1)}
-                  className="w-8 h-8 bg-blue-700 text-white rounded-full text-lg"
-                >
-                  −
-                </button>
-                <input
-                  type="text"
-                  className="w-12 h-8 text-center border rounded-md"
-                  value={item.quantity}
-                  readOnly
-                />
-                <button
-                  onClick={() => updateQuantity(item.id, 1)}
-                  className="w-8 h-8 bg-blue-700 text-white rounded-full text-lg"
-                >
-                  +
-                </button>
-              </div>
-            </div>
+        {/* Product Info */}
+        <div className="flex-1 flex flex-col justify-between ml-3 sm:ml-4">
+          <p className="text-sm text-black">{item.sub}</p>
+          <p className="text-black text-lg font-bold sm:text-base whitespace-normal break-words">
+            {item.name}
+          </p>
+          <p className="text-blue-800 font-bold text-sm sm:text-base">
+            NGN {item.price.toFixed(2)}
+          </p>
 
-            <div
-              className="bg-blue-800 MT w-10 h-24 flex items-center justify-center hidden"
-              onClick={() => trash(item.id)}
+          {/* Quantity Controls */}
+          <div className="flex items-center ml-24 space-x-2 mt-1">
+            <button
+              onClick={() => updateQuantity(item.id, -1)}
+              className="w-8 h-8 bg-blue-700 text-white rounded-full text-lg flex items-center justify-center"
             >
-              <Trash size={24} color="white" />
-            </div>
+              −
+            </button>
+            <input
+              type="text"
+              className="w-12 h-8 text-center border rounded-md"
+              value={item.quantity}
+              readOnly
+            />
+            <button
+              onClick={() => updateQuantity(item.id, 1)}
+              className="w-8 h-8 bg-blue-700 text-white rounded-full text-lg flex items-center justify-center"
+            >
+              +
+            </button>
           </div>
-        ))}
+        </div>
+
+        {/* Trash Button (Full Height) */}
+        <div className="bg-blue-800 flex items-center MT hidden justify-center px-4 w-14 sm:w-16" ><Trash size={24} color="white" onClick={() => trash(item.id)} /></div>
       </div>
 
-      {/* Pricing Details */}
-      <div className="mt-6 space-y-2 text-lg">
+    ))}
+
+      <div className="mt-6 space-y-2 text-lg p-6">
         <div className="flex justify-between">
           <span className="font-bold">Subtotal:</span>
           <span>NGN {subtotal.toFixed(2)}</span>
@@ -161,9 +164,10 @@ export default function Checkout() {
           <span className="text-blue-800">NGN {total.toFixed(2)}</span>
         </div>
       </div>
-
+</div>
       {/* Payment Button */}
    <Button Name="Proceed To Payment" url={{pathname:"/payment",query:{total:total}}}/>
-    </div>
+  
+  </div>
   );
 }

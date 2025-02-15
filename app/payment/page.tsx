@@ -26,9 +26,11 @@ import Link from "next/link";
     <div className="min-h-screen bg-white px-4 py-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <button className="text-2xl"><Link href={"/checkout"}>{<ArrowLeft/>}</Link></button>
-        <h1 className="text-xl font-semibold">Payment</h1>
-        <div className="w-6"></div>
+      <div>
+          <button className="text-2xl"><Link href={"/checkout"}>{<ArrowLeft/>}</Link></button>
+        <h1 className="text-xl text-black font-semibold">Payment</h1>
+    </div>
+          <div className="w-6"></div>
       </div>
 
       {/* Tabs */}
