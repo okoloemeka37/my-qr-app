@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import {  ArrowLeft,CreditCard, PlusCircle } from "lucide-react";
 import Button from "../components/Button";
 import { useSearchParams } from "next/navigation";
@@ -8,8 +8,7 @@ import Link from "next/link";
 
 
 
-
-export default function PaymentPage() {
+ function PaymentContent() {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   const searchParams = useSearchParams();
@@ -72,3 +71,11 @@ export default function PaymentPage() {
     </div>
   );
 }
+
+export default function Payment(){
+  return(
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentContent/>
+      </Suspense>
+  )
+};
