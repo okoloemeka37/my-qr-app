@@ -1,41 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Minus, Plus, Trash } from "lucide-react";
 import Link from "next/link";
 import Button from "../components/Button";
 import { useDrag } from "@use-gesture/react";
+import {getScannedItems } from "@/lib/db";
 
-
-const cartItems = [
-  {
-    id: 1,
-    sub: "Braeburn",
-    name: "Braeburn Apple",
-    price: 836.63,
-    image: "images/apple.png",
-    quantity: 3,
-  },
-  {
-    id: 2,
-    sub: "minor figures",
-    name: "Barista Oat Organic (1 Litre)",
-    price: 5856.44,
-    image: "images/apple.png",
-    quantity: 2,
-  },
-  {
-    id: 3,
-    sub: "valley Isle",
-    name: "Local Lilikoi Kombucha",
-    price: 11696.16,
-    image: "images/apple.png",
-    quantity: 2,
-  },
-];
 
 export default function Checkout() {
-  const [items, setItems] = useState(cartItems);
+  const [items, setItems] = useState<any[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const items = await getScannedItems();
+      setItems(items);
+    }
+    fetchData();
+  }, []);
+
 
   // Calculate subtotal
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -106,7 +90,7 @@ export default function Checkout() {
             {/* Product Info */}
             <div className="flex-1 lg:w-11/12 lg:flex lg:flex-row sm:flex-col justify-between ml-3 sm:ml-4">
               <div>
-                <p className="text-sm text-black">{item.sub}</p>
+               
                 <p className="text-black text-lg font-bold sm:text-base whitespace-normal break-words">
                   {item.name}
                 </p>

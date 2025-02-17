@@ -5,10 +5,14 @@ import { useState } from "react";
 /*import { Button } from "@/components/ui/button"; */
 import { X } from "lucide-react";
 import Link from "next/link";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import { saveScannedItem, getScannedItems } from "@/lib/db";
+import { useRouter } from "next/navigation";
 
 export default function Scanner() {
-  const [isScanning, setIsScanning] = useState(false);
-
+  const [scanning, setScanning] = useState(false);
+  const router = useRouter();
+const [data, setData] = useState("");
   return (
     <div className="relative h-screen w-full">
     
@@ -34,6 +38,41 @@ export default function Scanner() {
           <p className="text-white mb-4">Place the barcode in the center of the scanner</p>
           <div className="w-24 h-24 border-4 border-white rounded-lg flex items-center justify-center">
         <Camera className="text-white w-8 h-8" /> 
+
+        
+        <div className="flex flex-col items-center gap-4 p-4">
+        {scanning && (
+        <BarcodeScannerComponent
+          width={300}
+          height={300}
+          facingMode="environment" // Use back camera
+          onUpdate={(err, result) => {
+            if (result) {
+              const product=JSON.parse(result.getText())
+              setData(product);
+              setScanning(false); // Stop scanning when barcode is detected
+             saveScannedItem(product);
+              router.push("/checkout");
+            }
+          }}
+        />
+      )}
+      {data && (
+        <p className="text-lg font-medium">
+          ✅ Scan Complete! Code: <strong>{data}</strong>
+        </p>
+      )}
+      {!scanning && (
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={() => setScanning(true)}
+        >
+          Scan Again
+        </button>
+      )}
+    </div>
+        
+
           </div>
         </div>
 
