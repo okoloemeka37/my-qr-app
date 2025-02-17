@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function Scanner() {
   const [scanning, setScanning] = useState(false);
   const router = useRouter();
-
+  const [data, setData] = useState<string | null>(null);
   return (
     <div className="relative h-screen w-full">
     
@@ -43,8 +43,8 @@ export default function Scanner() {
         <div className="flex flex-col items-center gap-4 p-4">
         {scanning && (
         <BarcodeScannerComponent
-          width={300}
-          height={300}
+          width={500}
+          height={500}
           facingMode="environment" // Use back camera
           onUpdate={(err, result) => {
             if (result) {
@@ -57,7 +57,11 @@ export default function Scanner() {
           }}
         />
       )}
-      
+      {data && (
+        <p className="text-lg font-medium">
+          ✅ Scan Complete! Code: <strong>{data}</strong>
+        </p>
+      )}
       {!scanning && (
         <button
           className="px-4 py-2 bg-blue-500 text-white rounded"
