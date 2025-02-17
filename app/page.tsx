@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function Scanner() {
   const [scanning, setScanning] = useState(false);
   const router = useRouter();
-const [data, setData] = useState("");
+
   return (
     <div className="relative h-screen w-full">
     
@@ -49,7 +49,7 @@ const [data, setData] = useState("");
           onUpdate={(err, result) => {
             if (result) {
               const product=JSON.parse(result.getText())
-              setData(product);
+          
               setScanning(false); // Stop scanning when barcode is detected
              saveScannedItem(product);
               router.push("/checkout");
@@ -57,11 +57,7 @@ const [data, setData] = useState("");
           }}
         />
       )}
-      {data && (
-        <p className="text-lg font-medium">
-          ✅ Scan Complete! Code: <strong>{data}</strong>
-        </p>
-      )}
+      
       {!scanning && (
         <button
           className="px-4 py-2 bg-blue-500 text-white rounded"
