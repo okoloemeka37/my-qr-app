@@ -49,7 +49,7 @@ export default function Scanner() {
           onUpdate={(err, result) => {
             if (result) {
               const product=JSON.parse(result.getText())
-          
+          setData(result.getText());
               setScanning(false); // Stop scanning when barcode is detected
              saveScannedItem(product);
               router.push("/checkout");
