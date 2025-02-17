@@ -4,18 +4,46 @@ import { Minus, Plus, Trash } from "lucide-react";
 import Link from "next/link";
 import Button from "../components/Button";
 import { useDrag } from "@use-gesture/react";
-import {getScannedItems } from "@/lib/db";
+import { getScannedItems } from "@/lib/db";
 
+
+
+const cartItems = [
+  {
+    id: 1,
+    sub: "Braeburn",
+    name: "Braeburn Apple",
+    price: 836.63,
+    image: "images/apple.png",
+    quantity: 3,
+  },
+  {
+    id: 2,
+    sub: "minor figures",
+    name: "Barista Oat Organic (1 Litre)",
+    price: 5856.44,
+    image: "images/apple.png",
+    quantity: 2,
+  },
+  {
+    id: 3,
+    sub: "valley Isle",
+    name: "Local Lilikoi Kombucha",
+    price: 11696.16,
+    image: "images/apple.png",
+    quantity: 2,
+  },
+];
 
 export default function Checkout() {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<any[]>(cartItems);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
 
   useEffect(() => {
     async function fetchData() {
       const items = await getScannedItems();
-      setItems(items);
+      //setItems(items);
     }
     fetchData();
   }, []);
