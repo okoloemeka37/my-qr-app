@@ -1,0 +1,32 @@
+[
+  {
+    "barcode": "8901234567890",
+    "name": "Coca Cola 500ml",
+    "price": 1.99,
+    "image": "https://example.com/images/coca-cola-500ml.jpg"
+  },
+  {
+    "barcode": "8901234567891",
+    "name": "Pepsi 500ml",
+    "price": 1.89,
+    "image": "https://example.com/images/pepsi-500ml.jpg"
+  },
+  {
+    "barcode": "8901234567892",
+    "name": "Lays Classic Chips 200g",
+    "price": 2.49,
+    "image": "https://example.com/images/lays-chips.jpg"
+  },
+  {
+    "barcode": "8901234567893",
+    "name": "Nestle Pure Life Water 1L",
+    "price": 0.99,
+    "image": "https://example.com/images/nestle-water.jpg"
+  },
+  {
+    "barcode": "8901234567894",
+    "name": "Cadbury Dairy Milk Chocolate 150g",
+    "price": 3.49,
+    "image": "https://example.com/images/dairy-milk.jpg"
+  }
+]

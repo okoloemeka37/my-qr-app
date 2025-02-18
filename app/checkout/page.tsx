@@ -43,6 +43,7 @@ export default function Checkout() {
   useEffect(() => {
     async function fetchData() {
       const items = await getScannedItems();
+      console.log(items)
       //setItems(items);
     }
     fetchData();
