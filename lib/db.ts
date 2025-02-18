@@ -13,7 +13,7 @@ export async function initDB() {
   });
 }
 
-export async function saveScannedItem(data: {id:number}) {
+export async function saveScannedItem(data: {productId:number}) {
   const db = await initDB();
   await db.add(STORE_NAME, { ...data, date: new Date().toISOString() });
 }

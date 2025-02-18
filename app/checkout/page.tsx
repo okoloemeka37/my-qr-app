@@ -39,15 +39,30 @@ export default function Checkout() {
   const [items, setItems] = useState<any[]>(cartItems);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-
+let codes: number[] = [];
   useEffect(() => {
     async function fetchData() {
       const items = await getScannedItems();
-      console.log(items)
+      console.log(items);
+      items.map((val)=>{
+codes.push(val.productId);
+
+      })
       //setItems(items);
     }
     fetchData();
+    getProducts(codes);
+    
   }, []);
+
+  async function getProducts(productIds:number[]) {
+    const products=await fetch('/lib/pro.json')
+    .then(response => response.json())
+  .then(data => {
+    const matchingProducts = data.filter((product: { productId: number }) => codes.includes(product.productId));
+    setItems(matchingProducts);
+  });
+  }
 
 
   // Calculate subtotal
