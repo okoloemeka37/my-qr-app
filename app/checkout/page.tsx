@@ -20,7 +20,7 @@ let codes: number[] = [];
       const items = await getScannedItems();
       
       items.map((val)=>{
-codes.push(val.productId);
+codes.push(val.id);
 console.log(codes);
       })
       //setItems(items);
