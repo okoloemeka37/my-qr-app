@@ -10,7 +10,8 @@ import { getScannedItems } from "@/lib/db";
 
 
 export default function Checkout() {
-  const [items, setItems] = useState<any[]>([{}]);
+  const [items, setItems] = useState<any[]>([ { "barcode": 0,"name": "","price": 0.00, "image": ""
+  },]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
 let codes: number[] = [];
@@ -33,7 +34,7 @@ codes.push(val.productId);
     const products=await fetch('/lib/pro.json')
     .then(response => response.json())
   .then(data => {
-    const matchingProducts = data.filter((product: { productId: number }) => codes.includes(product.productId));
+    const matchingProducts = data.filter((product: { productId: number }) => codes.includes(Number(product.productId)));
     setItems(matchingProducts);
   });
   }
