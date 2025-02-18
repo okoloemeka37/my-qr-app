@@ -10,7 +10,7 @@ import { getScannedItems } from "@/lib/db";
 
 
 export default function Checkout() {
-  const [items, setItems] = useState<any[]>([ { "barcode": 0,"name": "","price": 0.00, "image": ""
+  const [items, setItems] = useState([ {"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png",'quantity':1
   },]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -18,23 +18,26 @@ let codes: number[] = [];
   useEffect(() => {
     async function fetchData() {
       const items = await getScannedItems();
-      console.log(items);
+      
       items.map((val)=>{
 codes.push(val.productId);
-
+console.log(codes);
       })
       //setItems(items);
+     getProducts(codes);
     }
-    fetchData();
-    getProducts(codes);
     
+    
+    fetchData();
   }, []);
 
   async function getProducts(productIds:number[]) {
-    const products=await fetch('/lib/pro.json')
+    const products=await fetch('pro.json')
     .then(response => response.json())
   .then(data => {
-    const matchingProducts = data.filter((product: { productId: number }) => codes.includes(Number(product.productId)));
+    console.log(productIds)
+    const matchingProducts = data.filter((product: { id: number }) => codes.includes(Number(product.id)));
+   console.log(matchingProducts)
     setItems(matchingProducts);
   });
   }
@@ -87,6 +90,7 @@ codes.push(val.productId);
  
   return (
     <div className="bg-white min-h-screen text-black">
+      {items[0].name}
       <div className="flex items-center justify-between mb-6 p-6">
         <button className="text-2xl">
           <Link href={"/"}>✖</Link>
