@@ -10,7 +10,7 @@ import { getScannedItems } from "@/lib/db";
 
 
 export default function Checkout() {
-  const [items, setItems] = useState([{"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png",'quantity':1}]);
+  const [items, setItems] = useState([{"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png","quantity":1}]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [dn, setdn] = useState<number[]>([]);
   const [rf, setrf] = useState<[]>([])
@@ -38,20 +38,19 @@ setdn(codes);
     const products=await fetch('pro.json')
     .then(response => response.json())
   .then(data => {
-    console.log(productIds)
+
     const matchingProducts = data.filter((product: { barcode: number }) => codes.includes(Number(product.barcode)));
-   console.log(matchingProducts)
-    setItems(matchingProducts);
-    setItems(prev=>({...prev,quantity:1}));
-    setrf(matchingProducts)
+const reel = matchingProducts.map((val:{quantity:number}) => { val.quantity = 1; return val; });
+   console.log(reel)
+
+    setItems(reel)
   });
   }
 
 
   // Calculate subtotal
-  const subtotal = Array.isArray(items) && items.length > 0 
-  ? items.reduce((acc, item) => acc + item.price * item.quantity, 0) 
-  : 0;
+  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0) 
+console.log(items)
   const taxes = subtotal * 0.05; // Assuming 5% tax
   const total = subtotal + taxes;
 
@@ -94,11 +93,11 @@ setdn(codes);
       setItems((prev) => prev.filter((item) => item.id !== id));
     };
   
- 
+ console.log(items)
   return (
+    
     <div className="bg-white min-h-screen text-black">
-{dn}
-{rf}
+
       <div className="flex items-center justify-between mb-6 p-6">
         <button className="text-2xl">
           <Link href={"/"}>✖</Link>
@@ -108,7 +107,7 @@ setdn(codes);
       </div>
 
       <div className="space-y-4 sm:space-y-6">
-        {Array.isArray(items)&&items.map((item, index) => (
+        {items.map((item, index) => (
           <div key={item.id}
             className={`flex w-full items-stretch border-b border-gray-300 py-1 p-6 touch-none in${index}`}
             {...bind(index)}
