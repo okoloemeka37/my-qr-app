@@ -20,7 +20,7 @@ let codes: number[] = [];
       const items = await getScannedItems();
       
       items.map((val)=>{
-codes.push(val.id);
+codes.push(val.productId);
 console.log(codes);
       })
       //setItems(items);
@@ -36,9 +36,10 @@ console.log(codes);
     .then(response => response.json())
   .then(data => {
     console.log(productIds)
-    const matchingProducts = data.filter((product: { id: number }) => codes.includes(Number(product.id)));
+    const matchingProducts = data.filter((product: { barcode: number }) => codes.includes(Number(product.barcode)));
    console.log(matchingProducts)
     setItems(matchingProducts);
+    setItems(prev=>({...prev,quantity:1}))
   });
   }
 
