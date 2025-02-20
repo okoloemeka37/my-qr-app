@@ -12,6 +12,8 @@ import { getScannedItems } from "@/lib/db";
 export default function Checkout() {
   const [items, setItems] = useState([{"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png",'quantity':1}]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [dn, setdn] = useState<number[]>([]);
+  const [rf, setrf] = useState<[]>([])
 
 let codes: number[] = [];
   useEffect(() => {
@@ -21,6 +23,8 @@ let codes: number[] = [];
       items.map((val)=>{
 codes.push(val.productId);
 console.log(codes);
+setdn(codes);
+
       })
       //setItems(items);
      getProducts(codes);
@@ -38,7 +42,8 @@ console.log(codes);
     const matchingProducts = data.filter((product: { barcode: number }) => codes.includes(Number(product.barcode)));
    console.log(matchingProducts)
     setItems(matchingProducts);
-    setItems(prev=>({...prev,quantity:1}))
+    setItems(prev=>({...prev,quantity:1}));
+    setrf(matchingProducts)
   });
   }
 
@@ -92,7 +97,8 @@ console.log(codes);
  
   return (
     <div className="bg-white min-h-screen text-black">
-
+{dn}
+{rf}
       <div className="flex items-center justify-between mb-6 p-6">
         <button className="text-2xl">
           <Link href={"/"}>✖</Link>
