@@ -10,8 +10,7 @@ import { getScannedItems } from "@/lib/db";
 
 
 export default function Checkout() {
-  const [items, setItems] = useState([ {"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png",'quantity':1
-  },]);
+  const [items, setItems] = useState([{"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png",'quantity':1}]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
 let codes: number[] = [];
@@ -45,7 +44,9 @@ console.log(codes);
 
 
   // Calculate subtotal
-  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = Array.isArray(items) && items.length > 0 
+  ? items.reduce((acc, item) => acc + item.price * item.quantity, 0) 
+  : 0;
   const taxes = subtotal * 0.05; // Assuming 5% tax
   const total = subtotal + taxes;
 
@@ -91,7 +92,7 @@ console.log(codes);
  
   return (
     <div className="bg-white min-h-screen text-black">
-      {items[0].name}
+
       <div className="flex items-center justify-between mb-6 p-6">
         <button className="text-2xl">
           <Link href={"/"}>✖</Link>
@@ -101,7 +102,7 @@ console.log(codes);
       </div>
 
       <div className="space-y-4 sm:space-y-6">
-        {items.map((item, index) => (
+        {Array.isArray(items)&&items.map((item, index) => (
           <div key={item.id}
             className={`flex w-full items-stretch border-b border-gray-300 py-1 p-6 touch-none in${index}`}
             {...bind(index)}
