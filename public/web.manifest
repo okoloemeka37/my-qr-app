@@ -1,6 +1,6 @@
 {
-  "name": "QrApp.com",
-  "short_name": "ss.com",
+  "name": "Scan2Pay",
+  "short_name": "S2P",
   "theme_color": "#2a2aeb",
   "background_color": "#20272e",
   "start_url": "/",
