@@ -1,10 +1,10 @@
 {
-  "name": "Scan2Pay",
-  "short_name": "S2P",
+  "name": "Scan2Pay.com",
+  "short_name": "S2P.com",
   "theme_color": "#2a2aeb",
   "background_color": "#20272e",
   "start_url": "/",
-  "id": "Qr.com",
+  "id": "/",
   "display": "standalone",
   "description": "You Will love it",
   "icons": [
