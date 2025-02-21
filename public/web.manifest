@@ -27,18 +27,6 @@
 "type": "image/png",
 "sizes": "1080x1920",
 "form_factor": "narrow"
-},
-{
-"src": "icons/ss.png",
-"type": "image/png",
-"sizes": "1080x1920",
-"form_factor": "narrow"
-},
-{
-"src": "icons/ss.png",
-"type": "image/png",
-"sizes": "1080x1920",
-"form_factor": "wide"
 }
 ]
 }
