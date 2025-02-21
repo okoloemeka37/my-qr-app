@@ -35,7 +35,7 @@ export default function Scanner() {
   <button className="bg-white rounded-md shadow w-fit p-2 text-2xl" onClick={()=>{setScanning(false)}}> <X size={24} /></button>
     <button className="bg-blue-800 text-white rounded-lg px-4 py-2 flex items-center space-x-2">
       <span><ShoppingCart color="white" size={24} /></span>
-      <span>{/* NGN 16732.70 */}   <Link href={'/checkout'}>checkout</Link></span>
+      <span><Link href={'/checkout'}>checkout</Link></span>
     </button>
   </div>
   <div>
