@@ -1,56 +1,73 @@
 "use client";
 import { useState,useEffect } from "react";
+
+interface Product {
+  id: number;
+  barcode: number;
+  name: string;
+  price: number;
+  key: number;
+  image: string;
+  quantity: number;
+}
 import { Minus, Plus, Trash } from "lucide-react";
 import Link from "next/link";
 import Button from "../components/Button";
 import { useDrag } from "@use-gesture/react";
 import { getScannedItems } from "@/lib/db";
+import deleteItem from "../functions/Delete";
+import TelegramCountdown from "../components/countdown";
 
 
 
 
 export default function Checkout() {
-  const [items, setItems] = useState([{"id":1 ,"barcode": 0,"name": "","price": 0.00, "image": "images/apple.png","quantity":1}]);
+  const [items, setItems] = useState([{"id":1 ,"barcode": 0,"name": "","price": 0.00,"key":0, "image": "images/apple.png","quantity":1}]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [dn, setdn] = useState<number[]>([]);
-  const [rf, setrf] = useState<[]>([])
+const [reset, setReset] = useState('')
+const [onDelete, setonDelete] = useState(false);
+const [count, setcount] = useState(0)
 
-let codes: number[] = [];
   useEffect(() => {
     async function fetchData() {
       const items = await getScannedItems();
-      
-      items.map((val)=>{
-codes.push(val.productId);
-console.log(codes);
-setdn(codes);
-
-      })
-      //setItems(items);
-     getProducts(codes);
+   
+     getProducts(items);
     }
     
-    
+   
     fetchData();
   }, []);
 
-  async function getProducts(productIds:number[]) {
+  async function getProducts(codes: { productId: number; id: number }[]) {
+    setReset("no")
+    let rfv: Product[] = [];
     const products=await fetch('pro.json')
     .then(response => response.json())
   .then(data => {
 
-    const matchingProducts = data.filter((product: { barcode: number }) => codes.includes(Number(product.barcode)));
-const reel = matchingProducts.map((val:{quantity:number}) => { val.quantity = 1; return val; });
-   console.log(reel)
+    const matchingProducts =data.map((product:{"id":number ,"barcode": number,"name":string,"price":number,"key":number, "image":string,"quantity":number}) => {
+ 
+     codes.map((fv)=>{
 
-    setItems(reel)
+     if (fv.productId === Number(product.barcode)) {
+  
+      rfv.push({...product,key:fv.id,quantity:1})
+     
+     }
+     })
+  
   });
+
+    
+  });
+  setItems(rfv)
   }
 
 
   // Calculate subtotal
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0) 
-console.log(items)
+
   const taxes = subtotal * 0.05; // Assuming 5% tax
   const total = subtotal + taxes;
 
@@ -88,12 +105,20 @@ console.log(items)
     }
   });
 
-    // Remove item
-    const trash = (id: number) => {
+    // Remove item;
+    let vb='no';
+    interface TrashEvent extends React.MouseEvent<SVGElement, MouseEvent> {}
+
+    const trash = (e: TrashEvent, id: number, key: number) => { 
+     
       setItems((prev) => prev.filter((item) => item.id !== id));
-    };
-  
- console.log(items)
+     
+      deleteItem(key)
+    }
+    const GF=()=>{
+   
+    }
+
   return (
     
     <div className="bg-white min-h-screen text-black">
@@ -154,7 +179,7 @@ console.log(items)
 
             {/* Trash Button (Full Height) */}
             <div className="bg-blue-800 flex items-center MT hidden justify-center px-4 w-14 sm:w-16">
-              <Trash size={24} color="white" onClick={() => trash(item.id)} />
+              <Trash size={24} color="white" onClick={(e) =>trash(e,item.id,item.key)} />
             </div>
           </div>
         ))}
@@ -179,6 +204,7 @@ console.log(items)
       <div className="p-6">
       <Button Name="Proceed To Payment" url={{ pathname: "/payment", query: { total: total.toFixed(2) } }} />
       </div>
+    {onDelete?  <div className="fixed flex bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-md p-4 bg-white shadow-lg rounded-lg"><TelegramCountdown seconds={count} onComplete={() => console.log("Deleted!")} />  <button onClick={GF} className=" text-black rounded-full shadow-md transition-all duration-200 active:scale-95 mt-5">Undo</button></div>:''}
     </div>
   );
 }

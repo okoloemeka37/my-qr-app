@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState,useEffect } from "react";
  import { Camera } from "lucide-react";
  import { ShoppingCart } from "lucide-react";
 /*import { Button } from "@/components/ui/button"; */
@@ -9,16 +9,37 @@ import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { saveScannedItem, getScannedItems } from "@/lib/db";
 import { useRouter } from "next/navigation";
 
+
 export default function Scanner() {
   const [scanning, setScanning] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<string | null>(null);
+  const [cart, setcart] = useState(0)
+
+    useEffect(() => {
+      async function fetchData() {
+        const items = await getScannedItems();
+       setcart(items.length)
+      }
+      fetchData();
+    }, []);
+  
+
+
   return (
     <div>
     
+    {scanning && (    
+    <>
+    <div className="flex justify-between items-center p-4">
+  <button className="bg-white rounded-md shadow w-fit p-2 text-2xl" onClick={()=>{setScanning(false)}}> <X size={24} /></button>
+    <button className="bg-blue-800 text-white rounded-lg px-4 py-2 flex items-center space-x-2">
+      <span><ShoppingCart color="white" size={24} /></span>
+      <span>{/* NGN 16732.70 */}   <Link href={'/checkout'}>checkout</Link></span>
+    </button>
+  </div>
+  <div className="ml-96">
         
-    <div className="flex flex-col items-center gap-4">
-        {scanning && (
         <BarcodeScannerComponent
           width={500}
           height={500}
@@ -39,10 +60,12 @@ export default function Scanner() {
               console.log(err);
             }
           }}
-        />
+        />    
+    </div>
+    </>
       )}
-      {data && ( <p  className="text-lg font-medium"> ✅ Scan Complete! Code: <strong>{data}</strong></p> )}
-    </div> 
+ 
+       
       {!scanning && (
         <div className="relative h-screen w-full">
               {/* Background Image */}
@@ -54,18 +77,15 @@ export default function Scanner() {
   <div className="flex justify-between items-center p-4">
   <button className="bg-white rounded-md shadow w-fit p-2 text-2xl"> <X size={24} /></button>
     <button className="bg-blue-800 text-white rounded-lg px-4 py-2 flex items-center space-x-2">
-      <span><ShoppingCart color="white" size={24} /></span>
+      <span><ShoppingCart color="white" size={24} /></span><sup>{cart}</sup>
       <span>{/* NGN 16732.70 */}   <Link href={'/checkout'}>checkout</Link></span>
     </button>
   </div>
 
   {/* Scanner Box */}
   <div className="flex flex-col items-center">
-    <p className="text-white mb-4">Place the barcode in the center of the scanner</p>
-    <div className="w-24 h-24 border-4 border-white rounded-lg flex items-center justify-center">
-     <Camera className="text-white w-8 h-8" /> 
-     <button  className="px-4 py-2 bg-blue-500 text-white rounded"onClick={() => setScanning(true)}>Scan</button>
-    </div>
+    <p className="text-white mb-4">Click The Icon To Scan</p>
+     <Camera className="text-white w-24 h-24 cursor-pointer"  onClick={() => setScanning(true)}/> 
   </div>
 
   {/* Spacer */}

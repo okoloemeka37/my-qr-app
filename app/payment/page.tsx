@@ -50,9 +50,9 @@ import Transer from "../components/payMethod/transer";
 
       {tab === 0 && <Card/>}
       {tab === 1 && <Transer/>}
-      {tab === 2 && <><p>Proceed to the  queue</p></>}
+      {tab === 2 && <><p className="text-black">Proceed to the  queue</p></>}
 
-      <Button Name={`Pay `+total } url="/exitPass" />
+      <Button Name={`Pay `+total } url={{ pathname: "/exitPass", query: {total: Number(total)?.toFixed(2) } }} />
     </div>
   );
 }
