@@ -38,7 +38,7 @@ export default function Scanner() {
       <span>{/* NGN 16732.70 */}   <Link href={'/checkout'}>checkout</Link></span>
     </button>
   </div>
-  <div className="ml-96">
+  <div >
         
         <BarcodeScannerComponent
           width={500}
