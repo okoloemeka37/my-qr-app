@@ -25,8 +25,8 @@ export default function OrderSummary() {
   const [style,api] = useSpring(() => ({ y: 0 })); // Initial position
 
   const bind = useDrag(({ movement: [_, my], down }) => {
-    if (down) {
-      api.start({ y: my > 50 ? 50 : my, immediate: true }); // Limit the drag effect
+    if (!down && my>70) {
+      api.start({ y: my > 70 ? 70 : my, immediate: true }); // Limit the drag effect
       router.push("/")
     } 
   });
@@ -35,7 +35,7 @@ export default function OrderSummary() {
     <animated.div className="min-h-screen bg-white px-6 py-6" style={style}>
       {/* Header */}
       <div className="flex justify-center mb-4" >
-      <div {...bind()} className=" h-1 w-16 bg-gray-400 rounded-full cursor-pointer touch-none"/> 
+      <div {...bind()} className=" h-1 w-16 bg-gray-400 rounded-full mt-7 cursor-pointer touch-none"/> 
       </div>
 
       {/* Order Details */}
