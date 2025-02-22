@@ -1,10 +1,17 @@
 "use client";
 
 import { getScannedItems } from "@/lib/db";
+import { useDrag } from "@use-gesture/react";
+import { useSpring, animated } from "@react-spring/web";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
+
+
+
 export default function OrderSummary() {
+  const router=useRouter()
   const [data, setdata] = useState<any[]>([]);
 
   useEffect(() => {
@@ -15,11 +22,20 @@ export default function OrderSummary() {
     fetchData();
   }, []);
 
+  const [style,api] = useSpring(() => ({ y: 0 })); // Initial position
+
+  const bind = useDrag(({ movement: [_, my], down }) => {
+    if (down) {
+      api.start({ y: my > 50 ? 50 : my, immediate: true }); // Limit the drag effect
+      router.push("/")
+    } 
+  });
+
   return (
-    <div className="min-h-screen bg-white px-6 py-6">
+    <animated.div className="min-h-screen bg-white px-6 py-6" style={style}>
       {/* Header */}
-      <div className="flex justify-center mb-4">
-        <div className="h-1 w-16 bg-gray-400 rounded-full"></div>
+      <div className="flex justify-center mb-4" >
+      <div {...bind()} className=" h-1 w-16 bg-gray-400 rounded-full cursor-pointer touch-none"/> 
       </div>
 
       {/* Order Details */}
@@ -76,6 +92,6 @@ export default function OrderSummary() {
           <p className="text-blue-800">NGN 31185.18</p>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 }

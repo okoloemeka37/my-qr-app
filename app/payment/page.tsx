@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Card from "../components/payMethod/card";
 import Transer from "../components/payMethod/transer";
+import { useDrag } from "@use-gesture/react";
+
 
 
 
@@ -25,12 +27,14 @@ import Transer from "../components/payMethod/transer";
   }
 
 
+
+
   return (
     <div className="min-h-screen bg-white px-4 py-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
       <div>
-          <button className="text-2xl"><Link href={"/checkout"}>{<ArrowLeft/>}</Link></button>
+          <button className="text-2xl text-black"><Link href={"/checkout"}>{<ArrowLeft/>}</Link></button>
         <h1 className="text-xl text-black font-semibold">Payment</h1>
     </div>
           <div className="w-6"></div>

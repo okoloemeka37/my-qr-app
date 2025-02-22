@@ -29,7 +29,7 @@ function PassContent() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 py-6">
       {/* Close Button */}
-      <div className="absolute top-6 right-6 text-gray-500 text-xl cursor-pointer" onClick={()=>{router.push("/checkout")}}>✕</div>
+      <div className="absolute top-6 right-6 text-gray-500 text-xl cursor-pointer" onClick={()=>{router.push("/checkout")}}>✖</div>
 
       {/* Title */}
       <h1 className="text-lg font-semibold text-center text-blue-900">
