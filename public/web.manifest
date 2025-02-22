@@ -1,23 +1,23 @@
 {
-  "name": "Scan2Pay",
-  "short_name": "S2P",
+  "name": "QrApp.com",
+  "short_name": "ss.com",
   "theme_color": "#2a2aeb",
   "background_color": "#20272e",
   "start_url": "/",
-  "id": "SP.com",
+  "id": "Qr.com",
   "display": "standalone",
   "description": "You Will love it",
   "icons": [
     {
       "purpose": "maskable",
       "sizes": "512x512",
-      "src": "icons/logo.png",
+      "src": "icons/ss.png",
       "type": "image/png"
     },
     {
       "purpose": "any",
       "sizes": "512x512",
-      "src": "icons/logo.png",
+      "src": "icons/ss.png",
       "type": "image/png"
     }
   ],
